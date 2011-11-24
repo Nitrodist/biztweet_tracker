@@ -9,7 +9,6 @@
         padding: 0;
         background-color: #f0f0f0;
         font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
-        font-size: 13px;
         color: #333;
       }
 
@@ -184,7 +183,23 @@
         info.style.display = 'block'
       }
     </script>
-  <script src="/assets/twitterlib.js?body=1" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="/assets/application.css?body=1" />
+
+    <script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+    <script src="/assets/twitterlib.js?body=1" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      // Search for Nitrodist
+      twitterlib.timeline('Nitrodist', { filter: '#CM2066' }, function (tweets, options) {
+        for (var i = 0; i < tweets.length; i++) {
+          $("#list_of_tweets").append(twitterlib.render(tweets[i]));
+       }
+//        tweets.each( function(tweet){ 
+//          
+//        });
+      });
+    </script>
+  
   </head>
   <body>
     <div id="page">
@@ -203,7 +218,11 @@
       </div>
 
       <div id="content">
-	
+        
+        <ul id="list_of_tweets">
+        </ul>
+        
+        
       </div>
 
       <div id="footer">&nbsp;</div>

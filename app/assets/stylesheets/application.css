@@ -5,3 +5,34 @@
  *= require_self
  *= require_tree . 
 */
+
+body {
+  font-family: Arial, 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  border-bottom: 1px dashed;
+  padding: 1em;
+  min-height: 50px;
+}
+
+li:hover {
+  background-color: #FFCC00;
+}
+
+.vcard {
+  width: 56px;
+  display: inline;
+  float: left;
+}
+
+.hentry {
+  margin-left: 60px;
+}
+
+
