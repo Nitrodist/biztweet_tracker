@@ -16,19 +16,19 @@ body {
   color: #333;
 }
 
-#list_of_tweets {
+.tweet_list, #list_of_tweets {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-#list_of_tweets li {
+.tweet_list li, #list_of_tweets li {
   border-bottom: 1px dashed;
   padding: 1em;
   min-height: 50px;
 }
 
-#list_of_tweets li:hover {
+.tweet_list li:hover, #list_of_tweets li:hover {
   background-color: #FFCC00;
 }
 
