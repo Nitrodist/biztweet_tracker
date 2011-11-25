@@ -5,19 +5,6 @@
     <style type="text/css" media="screen">
 
     </style>
-    <script type="text/javascript">
-      function about() {
-        info = document.getElementById('about-content');
-        if (window.XMLHttpRequest)
-          { xhr = new XMLHttpRequest(); }
-        else
-          { xhr = new ActiveXObject("Microsoft.XMLHTTP"); }
-        xhr.open("GET","rails/info/properties",false);
-        xhr.send("");
-        info.innerHTML = xhr.responseText;
-        info.style.display = 'block'
-      }
-    </script>
     <link rel="stylesheet" type="text/css" media="all" href="/assets/application.css?body=1" />
 
     <script src="/assets/jquery.js?body=1" type="text/javascript"></script>
