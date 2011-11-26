@@ -2,9 +2,7 @@
 
 **An Application to track your tweets for #CM2066 (for the next week!)**
 
-This, so far, is just a static web page (yes, I realize that we're not using the rails at all... yet) that grabs all of your tweets in your timeline for #CM2066 and displays them here.
-
-We'll work on the app some more so that we can track the searches and you can see the weeks in which you achieved your goal of posting a tweet for #CM2066.
+This is a little web app that grabs all of your tweets in your timeline for #CM2066 and displays them here.
 
 ## Frameworks and Libraries Used
 
