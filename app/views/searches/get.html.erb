@@ -1,0 +1,38 @@
+<div id="page">
+
+  <div id="sidebar">
+    <ul id="sidebar-items">
+      <li>
+        <h3>About the Application</h3>
+        <ul class="links">
+          <li><a href="https://twitter.com/#!/search/%23CM2066">#CM2066 On Twitter</a></li>
+          <li><a href="https://twitter.com/#!/MurrayMoman">@MurrayMoman</a></li>
+          <li><a href="http://skullspace.ca">SkullSpace - A Hackerspace</a></li>
+          <li><a href="http://rrc.mb.ca">Red River College</a></li>
+          <li><a href="http://me.rrc.mb.ca/catalogue/CourseDescriptions.aspx?ProgCode=INFNF-DP&RegionCode=WPG#COMP-2126">Course Description</a></li>
+        </ul>
+        <h3>Recent Searches</h3>
+        <ul>
+          <%- @searches.each do |search| %>
+          <li style="font-size: xx-small;"><%= time_ago_in_words(search.created_at) %> ago: "<%= search.query %>"</li>
+          <%- end %>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div id="content">
+    <h1>BizTweet Tracker</h1>
+
+    <p style="border-bottom: 1px dashed #BBB; padding: 0 10px 20px; margin-bottom: 20px;">Hey there! This app queries twitter to see if you've got your tweets for the week in #CM2066. Type in your <strong>Twitter name</strong> and give it a try.</p>
+
+    <form>
+      <input type="text" id="search_q" /> <input class="same" type="submit" value="Get my tweets!" />
+    </form>
+
+    <ul id="weeks_of_tweets">
+    </ul>
+  </div>
+
+  <div id="footer">&copy; Mark Campbell and Sean Mendoza 2011</div>
+</div>
