@@ -67,12 +67,20 @@
         });
         // with our other data structure
         $.each(tweetWeeks, function(i, tweetsForWeek) {
-          $("#test").append("<h3>Week " + (18 - i) + "</h3><ul id=\"tweet_list_" + i + "\" class='tweet_list'></ul>");
+          $("#weeks_of_tweets").append("<li>" + 
+                                       "<h3 class='indent float_left'>Week " + (18 - i) + "</h3>" + 
+                                       "<p class='tweet_week_count'>Tweets this week: " + tweetsForWeek.length + "</p>" + 
+                                       "<br class='clear' />" + 
+                                       "<ul id=\"tweet_list_" + i + "\" class='tweet_list'></ul></li>");
           $.each(tweetsForWeek, function(j, ttweet) {
             $("#tweet_list_" + i).append(twitterlib.render(ttweet));
           });
         });
+        $("#weeks_of_tweets li").css('cursor', 'pointer').click(function () {
+          $(".tweet_list", this).toggle('slow');
+        });
       });
+
     </script>
   
   </head>
@@ -94,16 +102,10 @@
 
       <div id="content">
         <h1>BizTweet Tracker</h1>
-        <hr />
 
-        <p id="test">
-
-        </p>
-        
-        <ul id="list_of_tweets">
+        <ul id="weeks_of_tweets">
         </ul>
-        
-        
+
       </div>
 
       <div id="footer">&copy; Mark Campbell and Sean Mendoza 2011</div>
