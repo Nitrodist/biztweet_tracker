@@ -41,7 +41,6 @@ $(function(){
 
   $("form").submit(function() {
 
-    $("#weeks_of_tweets").empty();
 
     var q = $("#search_q").val();
 
@@ -66,6 +65,9 @@ $(function(){
           tweetWeeks[position].push(tweet);
         }
       });
+
+      $("#weeks_of_tweets").empty();
+
       // with our other data structure
       $.each(tweetWeeks, function(i, tweetsForWeek) {
         $("#weeks_of_tweets").append("<li>" + 
