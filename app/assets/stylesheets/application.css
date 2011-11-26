@@ -12,25 +12,84 @@ body {
   margin: 0;
   margin-bottom: 25px;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: #9BF;
   color: #333;
 }
 
-.tweet_list, #list_of_tweets {
+form {
+  margin-bottom: 20px;
+}
+
+.clear {
+  clear: both;
+}
+
+.float_right {
+  float: right;
+}
+
+.float_left {
+  float: left;
+}
+
+.block {
+  display: block;
+}
+
+.tweet_week_count {
+  display: block;
+  position: absolute;
+  margin-right: 15px;
+  top: 0;
+  right: 0;
+  width: 200px;
+  text-align: right;
+}
+
+
+#weeks_of_tweets {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.tweet_list li, #list_of_tweets li {
-  border-bottom: 1px dashed;
+#weeks_of_tweets > li {
+  background-color: #DDD;
+  min-height: 55px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 1px 1px 3px #000;
+  position: relative;
+}
+
+#weeks_of_tweets > li .toggle_parent {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 55px;
+}
+
+.indent {
+  padding-left: 15px;
+}
+
+.tweet_list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 10px 0;
+}
+
+.tweet_list li {
+  border-top: 1px dashed #EEE;
   padding: 1em;
   min-height: 50px;
 }
 
-.tweet_list li:hover, #list_of_tweets li:hover {
+.tweet_list li:hover {
   background-color: #FFCC00;
 }
+
 
 .vcard {
   width: 56px;
@@ -56,7 +115,7 @@ body {
   background-color: white;
   border: 3px solid #aaa;
   border-top: none;
-  padding: 25px;
+  padding: 0px 25px 25px 25px;
   width: 500px;
 }
 
@@ -179,7 +238,7 @@ body {
   margin-top: 25px;
   font-size: 16px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid black;
 }
 #sidebar li {
   list-style-type: none;

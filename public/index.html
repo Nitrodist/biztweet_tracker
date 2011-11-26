@@ -12,6 +12,28 @@
 
     <script type="text/javascript">
 
+    $(function(){
+
+      var yearDays = [
+                     [ 360, 365 ],
+                     [ 353, 358 ],
+                     [ 346, 351 ],
+                     [ 339, 344 ],
+                     [ 332, 337 ],
+                     [ 325, 330 ],
+                     [ 318, 323 ],
+                     [ 311, 316 ],
+                     [ 304, 309 ],
+                     [ 297, 302 ],
+                     [ 290, 295 ],
+                     [ 283, 288 ],
+                     [ 276, 281 ],
+                     [ 269, 274 ],
+                     [ 262, 267 ],
+                     [ 255, 260 ],
+                     [ 248, 253 ],
+                     [ 241, 246 ]
+                     ]; 
       function getDayOfYear(d) {   // d is a Date object
         var yn = d.getFullYear();
         var mn = d.getMonth();
@@ -24,26 +46,6 @@
 
       function inRange(dayOfYear) {
         
-        var yearDays = [
-                       [ 360, 365 ],
-                       [ 353, 358 ],
-                       [ 346, 351 ],
-                       [ 339, 344 ],
-                       [ 332, 337 ],
-                       [ 325, 330 ],
-                       [ 318, 323 ],
-                       [ 311, 316 ],
-                       [ 304, 309 ],
-                       [ 297, 302 ],
-                       [ 290, 295 ],
-                       [ 283, 288 ],
-                       [ 276, 281 ],
-                       [ 269, 274 ],
-                       [ 262, 267 ],
-                       [ 255, 260 ],
-                       [ 248, 253 ],
-                       [ 241, 246 ]
-                       ]; 
         for (var i = 0; i < yearDays.length; i++) {
           if (yearDays[i][0] <= dayOfYear && dayOfYear <= yearDays[i][1])
             return i;
@@ -51,41 +53,55 @@
         return -1;
       }
 
-      var tweetWeeks = new Array(18);
-      for (var i = 0; i < tweetWeeks.length; i++) {
-        tweetWeeks[i] = new Array();
-      }
+      $("form").submit(function() {
 
-      // Search for Nitrodist
-      twitterlib.timeline('Nitrodist', { filter: '#CM2066' }, function (tweets, options) {
-        $.each(tweets, function(i, tweet) {
-          var day = getDayOfYear(new Date(Date.parse(tweet.created_at)));
-          var position = inRange(day);
-          if (position !== -1) {
-            tweetWeeks[position].push(tweet);
-          }
-        });
-        // with our other data structure
-        $.each(tweetWeeks, function(i, tweetsForWeek) {
-          $("#weeks_of_tweets").append("<li>" + 
-                                       "<h3 class='indent float_left'>Week " + (18 - i) + "</h3>" + 
-                                       "<p class='tweet_week_count'>Tweets this week: " + tweetsForWeek.length + "</p>" + 
-                                       "<br class='clear' />" + 
-                                       "<ul id=\"tweet_list_" + i + "\" class='tweet_list'></ul></li>");
-          $.each(tweetsForWeek, function(j, ttweet) {
-            $("#tweet_list_" + i).append(twitterlib.render(ttweet));
+        $("#weeks_of_tweets").empty();
+
+        if ($("#search_q").val() == "")
+          return false;
+
+        var tweetWeeks = new Array(18);
+        for (var i = 0; i < tweetWeeks.length; i++) {
+          tweetWeeks[i] = new Array();
+        }
+
+        // Search for Nitrodist
+        twitterlib.timeline($("#search_q").val(), { filter: '#CM2066' }, function (tweets, options) {
+          $.each(tweets, function(i, tweet) {
+            var day = getDayOfYear(new Date(Date.parse(tweet.created_at)));
+            var position = inRange(day);
+            if (position !== -1) {
+              tweetWeeks[position].push(tweet);
+            }
+          });
+          // with our other data structure
+          $.each(tweetWeeks, function(i, tweetsForWeek) {
+            $("#weeks_of_tweets").append("<li>" + 
+                                         "<div class='toggle_parent'>" + 
+                                         "<h3 class='indent float_left'>Week " + (18 - i) + "</h3>" + 
+                                         "<p class='tweet_week_count'>Tweets: <strong>" + tweetsForWeek.length + "</strong></p>" + 
+                                         "</div>" + 
+                                         "<ul id=\"tweet_list_" + i + "\" class='tweet_list clear'></ul></li>");
+            $.each(tweetsForWeek, function(j, ttweet) {
+              $("#tweet_list_" + i).append(twitterlib.render(ttweet));
+            });
+          });
+          $("#weeks_of_tweets > li .toggle_parent").css('cursor', 'pointer').click(function () {
+            $(".tweet_list", $(this).parent()).toggle('slow');
           });
         });
-        $("#weeks_of_tweets li").css('cursor', 'pointer').click(function () {
-          $(".tweet_list", this).toggle('slow');
-        });
+
+        return false; // stop form from submitting.
       });
+
+    });
 
     </script>
   
   </head>
   <body>
     <div id="page">
+
       <div id="sidebar">
         <ul id="sidebar-items">
           <li>
@@ -95,6 +111,7 @@
               <li><a href="https://twitter.com/#!/MurrayMoman">@MurrayMoman</a></li>
               <li><a href="http://skullspace.ca">SkullSpace - A Hackerspace</a></li>
               <li><a href="http://rrc.mb.ca">Red River College</a></li>
+              <li><a href="http://me.rrc.mb.ca/catalogue/CourseDescriptions.aspx?ProgCode=INFNF-DP&RegionCode=WPG#COMP-2126">Course Description</a></li>
             </ul>
           </li>
         </ul>
@@ -103,9 +120,14 @@
       <div id="content">
         <h1>BizTweet Tracker</h1>
 
+        <p style="border-bottom: 1px dashed #BBB; padding: 0 10px 20px; margin-bottom: 20px;">Hey there! This app queries twitter to see if you've got your tweets for the week in #CM2066. Type in your <strong>Twitter name</strong> and give it a try.</p>
+
+        <form>
+          <input type="text" id="search_q" /> <input class="same" type="submit" value="Get my tweets!" />
+        </form>
+
         <ul id="weeks_of_tweets">
         </ul>
-
       </div>
 
       <div id="footer">&copy; Mark Campbell and Sean Mendoza 2011</div>
