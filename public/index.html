@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ruby on Rails: Welcome aboard</title>
+    <title>BizTweet Tracker</title>
     <style type="text/css" media="screen">
 
     </style>
@@ -57,16 +57,18 @@
 
         $("#weeks_of_tweets").empty();
 
-        if ($("#search_q").val() == "")
-          return false;
+        var q = $("#search_q").val();
 
+        if (q == "")
+          return false;
+        
         var tweetWeeks = new Array(18);
         for (var i = 0; i < tweetWeeks.length; i++) {
           tweetWeeks[i] = new Array();
         }
 
         // Search for Nitrodist
-        twitterlib.timeline($("#search_q").val(), { filter: '#CM2066' }, function (tweets, options) {
+        twitterlib.timeline(q, { filter: '#CM2066' }, function (tweets, options) {
           $.each(tweets, function(i, tweet) {
             var day = getDayOfYear(new Date(Date.parse(tweet.created_at)));
             var position = inRange(day);
@@ -78,7 +80,7 @@
           $.each(tweetWeeks, function(i, tweetsForWeek) {
             $("#weeks_of_tweets").append("<li>" + 
                                          "<div class='toggle_parent'>" + 
-                                         "<h3 class='indent float_left'>Week " + (18 - i) + "</h3>" + 
+                                         "<h3 class='indent float_left'>Week " + (tweetWeeks.length - i) + "</h3>" + 
                                          "<p class='tweet_week_count'>Tweets: <strong>" + tweetsForWeek.length + "</strong></p>" + 
                                          "</div>" + 
                                          "<ul id=\"tweet_list_" + i + "\" class='tweet_list clear'></ul></li>");
