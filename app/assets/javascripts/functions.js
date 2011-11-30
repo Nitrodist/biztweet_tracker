@@ -41,9 +41,11 @@ $(function(){
 
   $("form").submit(function() {
 
+    if ($("#weeks_of_tweets").data('loading') == true)
+      return;
+
 
     var q = $("#search_q").val();
-
     if (q == "")
       return false;
     
@@ -56,34 +58,43 @@ $(function(){
       tweetWeeks[i] = new Array();
     }
 
-    // Search for Nitrodist
-    twitterlib.timeline(q, { filter: '#CM2066' }, function (tweets, options) {
-      $.each(tweets, function(i, tweet) {
-        var day = getDayOfYear(new Date(Date.parse(tweet.created_at)));
-        var position = inRange(day);
-        if (position !== -1) {
-          tweetWeeks[position].push(tweet);
-        }
-      });
+    $("#weeks_of_tweets").empty().data('loading', true);
 
-      $("#weeks_of_tweets").empty();
+    try {
 
-      // with our other data structure
-      $.each(tweetWeeks, function(i, tweetsForWeek) {
-        $("#weeks_of_tweets").append("<li>" + 
-                                     "<div class='toggle_parent'>" + 
-                                     "<h3 class='indent float_left'>Week " + (tweetWeeks.length - i) + "</h3>" + 
-                                     "<p class='tweet_week_count'>Tweets: <strong>" + tweetsForWeek.length + "</strong></p>" + 
-                                     "</div>" + 
-                                     "<ul id=\"tweet_list_" + i + "\" class='tweet_list clear'></ul></li>");
-        $.each(tweetsForWeek, function(j, ttweet) {
-          $("#tweet_list_" + i).append(twitterlib.render(ttweet));
+      // Search for Nitrodist
+      twitterlib.timeline(q, { filter: '#CM2066' }, function (tweets, options) {
+        $.each(tweets, function(i, tweet) {
+          var day = getDayOfYear(new Date(Date.parse(tweet.created_at)));
+          var position = inRange(day);
+          if (position !== -1) {
+            tweetWeeks[position].push(tweet);
+          }
+        });
+
+        $("#weeks_of_tweets").empty().data('loading', false);
+
+        // with our other data structure
+        $.each(tweetWeeks, function(i, tweetsForWeek) {
+          $("#weeks_of_tweets").append("<li>" + 
+                                       "<div class='toggle_parent'>" + 
+                                       "<h3 class='indent float_left'>Week " + (tweetWeeks.length - i) + "</h3>" + 
+                                       "<p class='tweet_week_count'>Tweets: <strong>" + tweetsForWeek.length + "</strong></p>" + 
+                                       "</div>" + 
+                                       "<ul id=\"tweet_list_" + i + "\" class='tweet_list clear'></ul></li>");
+          $.each(tweetsForWeek, function(j, ttweet) {
+            $("#tweet_list_" + i).append(twitterlib.render(ttweet));
+          });
+        });
+        $("#weeks_of_tweets > li .toggle_parent").css('cursor', 'pointer').click(function () {
+          $(".tweet_list", $(this).parent()).toggle('slow');
         });
       });
-      $("#weeks_of_tweets > li .toggle_parent").css('cursor', 'pointer').click(function () {
-        $(".tweet_list", $(this).parent()).toggle('slow');
-      });
-    });
+    }
+    catch (ex) {
+        $("#weeks_of_tweets").empty().data('loading', false);
+        alert(ex.description);
+    }
 
     return false; // stop form from submitting.
   });
