@@ -69,7 +69,7 @@ $(document).ready($(function(){
         $("#error_message").show('fast').text("Twitter is acting up... try again");
         $("#loading").css('display', 'none');
       }
-    }, 8000); // 8 seconds
+    }, 20000); // 20 seconds
 
     
     var url = "/searches";
